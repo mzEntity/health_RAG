@@ -1,4 +1,6 @@
-# Byte-compiled / optimized / DLL files
+health_doc_emb/
+log/
+# Byte-compiled / optimized / DLL files/
 __pycache__/
 *.py[cod]
 *$py.class
