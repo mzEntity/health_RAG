@@ -1,0 +1,59 @@
+1. 安装neo4j到wsl版本的Ubuntu
+安装或切换到jdk11
+参考：https://blog.csdn.net/sun8112133/article/details/79905401
+
+https://neo4j.com/deployment-center/#community
+下载4.4.32的community版本deb包。
+
+在ubuntu中，可以直接使用dpkg命令安装deb软件包
+sudo dpkg -i xxx.deb
+
+在安装的的过程可能会报错：所依赖的软件包未安装（大体上是这个意思，系统的报错都会说明原因的，需要自己耐心地去看，很多东西知道错误的原因都可以自己解决）
+可以在系统报错之后，系统会自动记录缺失的依赖包，此时只需要执行
+sudo apt install -f
+系统就会自动安装所需要的依赖包，然后重新执行
+
+参考：https://towardsdev.com/installing-cypher-shell-on-ubuntu-for-neo4j-database-management-9f6ecbef06df
+下载 Cypher Shell Debian 软件包 （.deb）。您可以使用命令执行此操作。方法如下：
+wget https://dist.neo4j.org/cypher-shell/cypher-shell_4.4.0_all.deb
+
+sudo dpkg -i cypher-shell_4.4.0_all.deb
+
+解析依赖并完成安装后，您可以通过查看软件包列表来验证 Cypher Shell 是否安装成功：
+dpkg -l | grep cypher
+
+启用 Neo4j 服务。
+$ sudo systemctl enable neo4j
+启动 Neo4j 服务。
+$ sudo systemctl start neo4j
+注意在WSL版本的Ubuntu不支持systemctl命令，参考对应版本的命令：
+https://www.cnblogs.com/a5idc/p/13752839.html
+$ sudo service neo4j start
+
+连接到 Cypher Shell。
+$ cypher-shell
+系统将提示您输入用户名和密码。默认的用户名和密码是 neo4j。系统将要求您选择一个新密码。
+username: neo4j
+password:
+Password change required
+new password:
+confirm password:
+Connected to Neo4j using Bolt protocol version 5.0 at neo4j://localhost:7687 as user neo4j.
+Type :help for a list of available commands or :exit to exit the shell.
+Note that Cypher queries must end with a semicolon.
+>
+这确认已成功连接到 Neo4j DBMS。
+
+输入 :exit 退出 shell。
+> :exit
+Bye!
+
+安装py2neo
+pip install py2neo
+注意版本对应 py2neo 2021.2.4可以支持neo4j 4.4.32
+
+安装ahocorasick
+pip install pyahocorasick
+
+代码中需要修改：
+self.g = Graph("http://localhost:7474", auth=("neo4j", "yourpassword"))
